@@ -26,3 +26,20 @@ Cypress.Commands.add('token', (email, senha) => {
           failOnStatusCode: false
     })
  })
+
+ Cypress.Commands.add('cadastrarUsuario', (token, nome, email, senha) => {
+  return cy.request({
+    method: 'POST',
+    url: 'usuarios',
+    headers: {
+      Authorization: token
+    },
+    body: {
+      nome: nome,
+      email: email,
+      password: senha,
+      administrador: 'true'
+    },
+    failOnStatusCode: false // não quebra o teste se a API retornar erro (ex: 400)
+  })
+})
