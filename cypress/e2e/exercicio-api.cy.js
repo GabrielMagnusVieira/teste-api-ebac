@@ -49,15 +49,15 @@ describe('Testes da Funcionalidade Usuários', () => {
 })
 
 it('Deve validar um usuário com email inválido', () => {
-  const emailInvalido = 'usuario_invalido.com' // formato inválido
+  const emailInvalido = 'usuario_invalido.com'
 
   cy.cadastrarUsuario(token, 'Usuário Inválido', emailInvalido, '123456')
     .should(response => {
-      expect(response.status).to.eq(400) // ou 422, dependendo da API
-      expect(response.body).to.have.property('message')
-      expect(response.body.message.toLowerCase()).to.include('email')
+      expect(response.status).to.eq(400)
+      expect(response.body).to.have.property('email')
+      expect(response.body.email.toLowerCase()).to.include('email')
     })
-})//
+})
 
 it('Deve editar um usuário previamente cadastrado', () => {
   const emailInicial = `usuario_${Date.now()}@teste.com`
@@ -70,7 +70,7 @@ it('Deve editar um usuário previamente cadastrado', () => {
       const idUsuario = responseCadastro.body._id
 
       cy.request({
-        method: 'PUT', // ou PATCH
+        method: 'PUT', 
         url: `usuarios/${idUsuario}`,
         headers: { Authorization: token },
         body: {
@@ -82,7 +82,6 @@ it('Deve editar um usuário previamente cadastrado', () => {
       }).then((responseEdicao) => {
         expect(responseEdicao.status).to.eq(200)
         expect(responseEdicao.body).to.have.property('message', 'Registro alterado com sucesso')
-        // não precisa verificar o nome aqui
       })
     })
 })
